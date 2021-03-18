@@ -135,7 +135,7 @@ class UI:
 
     def writeToFileUI(self):
         file_name = input("Enter the file name:")
-        write_type = int(input("Enter the write type: "))
+        write_type = int(input("Enter the write type(1/2): "))
         if write_type not in [1, 2]:
             raise ValueError("Invalid writing type...\n")
         if write_type == 1:
@@ -143,6 +143,7 @@ class UI:
         else:
             self._graph.writeGraph2(file_name)
         print("Saved succesfully.\n")
+
 
     def createRandomGraph(self):
         vertices = int(input("Enter the number of vertices: "))
