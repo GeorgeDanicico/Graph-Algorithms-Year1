@@ -1,3 +1,4 @@
+import random
 from copy import deepcopy
 
 
@@ -27,6 +28,37 @@ class DirectedGraph:
     @NrOfVertices.setter
     def NrOfVertices(self, value):
         self.__numberOfVertices = value
+
+    @staticmethod
+    def generateRandomGraph(vertices, edges):
+        randomGraph = DirectedGraph()
+        randomGraph.NrOfEdges = 0
+        randomGraph.NrOfVertices = 0
+
+        for i in range(vertices):
+            randomGraph.addVertex(i, True)
+
+        copy_edges = edges
+        while copy_edges:
+            try:
+                startPoint = random.randint(0, vertices - 1)
+                endPoint = random.randint(0, vertices - 1)
+                cost = random.randint(0, 200)
+                randomGraph.addEdge(startPoint, endPoint, cost, False)
+                copy_edges -= 1
+            except ValueError:
+                pass
+
+        return randomGraph
+
+    def __initGraph(self):
+        """
+        This function initialize the dictionaries.
+            It sets for every vertex an empty list.
+        """
+        for i in range(self.__numberOfVertices):
+            self.__dictIn[i] = []
+            self.__dictOut[i] = []
 
     def getAllVertices(self):
         for i in self.__dictOut.keys():
@@ -140,23 +172,6 @@ class DirectedGraph:
         else:
             raise ValueError("The edge does not exist.\n")
 
-    def __initGraph(self):
-        """
-        This function initialize the dictionaries.
-            It sets for every vertex an empty list.
-        """
-        for i in range(self.__numberOfVertices):
-            self.__dictIn[i] = []
-            self.__dictOut[i] = []
-
-    def addCost(self, edge, cost):
-        """
-        We will save the cost of an edge
-        :param edge: the edge as a tuple where edge[0] is the starting point, and edge[1] is the ending point
-        :param cost: integer number, the cost of the edge
-        """
-        self.__dictCost[edge] = cost
-
     def addEdge(self, startPoint, endPoint, cost, load_time):
         """
         Adds a new edge.
@@ -226,7 +241,7 @@ class DirectedGraph:
                 endPoint = int(line[1])
                 cost = int(line[2])
                 self.addEdge(startPoint, endPoint, cost, True)
-                self.addCost((startPoint, endPoint), cost)
+                # self.setCostEdge((startPoint, endPoint), cost)
             except ValueError as ve:
                 raise ValueError("Invalid values in the file. Please check the file.\n")
 
@@ -267,7 +282,7 @@ class DirectedGraph:
                     endPoint = int(line[1])
                     cost = int(line[2])
                     self.addEdge(startPoint, endPoint, cost, True)
-                    self.addCost((startPoint, endPoint), cost)
+                    # self.setCostEdge((startPoint, endPoint), cost)
             except ValueError as ve:
                 raise ValueError("Invalid values in the file. Please check the file.\n")
 
@@ -276,8 +291,9 @@ class DirectedGraph:
         with open(graph_file, "w") as output:
             output.write("%d %d\n" % (self.__numberOfVertices, self.__numberOfEdges))
             for i in self.getAllVertices():
-                for vertex in self.__dictOut[i]:
-                    output.write("%d %d %d\n" % (i, vertex, self.getCostOfEdge((i, vertex))))
+                pass
+                # for vertex in self.__dictOut[i]:
+                #     output.write("%d %d %d\n" % (i, vertex, self.getCostOfEdge((i, vertex))))
 
             output.close()
 
@@ -287,10 +303,10 @@ class DirectedGraph:
             output.write("%d %d\n" % (self.__numberOfVertices, self.__numberOfEdges))
             for i in self.getAllVertices():
                 if self.__dictIn[i] == [] and self.__dictOut[i] == []:
-                    output.write("%d \n" %(i))
+                    output.write("%d \n" %i)
                 else:
                     for vertex in self.__dictOut[i]:
-                        output.write("%d %d %d\n" % (i, vertex, self.getCostOfEdge((i, vertex))))
+                       output.write("%d %d %d\n" % (i, vertex, self.getCostOfEdge((i, vertex))))
 
             output.close()
 

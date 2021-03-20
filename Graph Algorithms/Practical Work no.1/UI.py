@@ -59,6 +59,7 @@ class UI:
         try:
             startPoint = int(startPoint)
             endPoint = int(endPoint)
+            cost = int(cost)
         except ValueError:
             raise ValueError("Invalid edges.\n")
 
@@ -147,27 +148,11 @@ class UI:
 
     def createRandomGraph(self):
         vertices = int(input("Enter the number of vertices: "))
-        edges = int(input("Enter the number of vertices: "))
+        edges = int(input("Enter the number of edges: "))
         if edges > vertices * (vertices - 1):
             edges = vertices * (vertices - 1)
 
-        randomGraph = DirectedGraph()
-        randomGraph.NrOfEdges = 0
-        randomGraph.NrOfVertices = 0
-
-        for i in range(vertices):
-            randomGraph.addVertex(i, True)
-
-        copy_edges = edges
-        while copy_edges:
-            try:
-                startPoint = random.randint(0, vertices - 1)
-                endPoint = random.randint(0, vertices - 1)
-                cost = random.randint(0, 200)
-                randomGraph.addEdge(startPoint, endPoint, cost, False)
-                copy_edges -= 1
-            except ValueError:
-                pass
+        randomGraph = self._graph.generateRandomGraph(vertices, edges)
 
         print("Graph generated succesfully")
         file_name = input("Enter the file where you want to print the graph: ")
