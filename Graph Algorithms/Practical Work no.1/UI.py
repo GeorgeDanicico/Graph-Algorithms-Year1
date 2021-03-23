@@ -94,7 +94,7 @@ class UI:
 
     def findVertexUI(self):
         vertex = int(input("Enter the vertex: "))
-        print(f"Existence of edge {vertex}: {self._graph.vertexExistence(vertex)}\n")
+        print(f"Existence of vertex {vertex}: {self._graph.vertexExistence(vertex)}\n")
 
     def findEdgeUI(self):
         startPoint = int(input("Enter the start vertex: "))
@@ -145,12 +145,11 @@ class UI:
             self._graph.writeGraph2(file_name)
         print("Saved succesfully.\n")
 
-
     def createRandomGraph(self):
         vertices = int(input("Enter the number of vertices: "))
         edges = int(input("Enter the number of edges: "))
-        if edges > vertices * (vertices - 1):
-            edges = vertices * (vertices - 1)
+        if edges > vertices * (vertices - 1) + vertices:
+            edges = vertices * (vertices - 1) + vertices
 
         randomGraph = self._graph.generateRandomGraph(vertices, edges)
 
@@ -164,9 +163,6 @@ class UI:
         else:
             randomGraph.writeGraph2(file_name)
         print("Saved succesfully.\n")
-
-
-
 
     def start(self):
 

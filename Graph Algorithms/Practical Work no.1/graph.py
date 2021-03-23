@@ -34,7 +34,6 @@ class DirectedGraph:
         randomGraph = DirectedGraph()
         randomGraph.NrOfEdges = 0
         randomGraph.NrOfVertices = 0
-
         for i in range(vertices):
             randomGraph.addVertex(i, True)
 
@@ -89,7 +88,7 @@ class DirectedGraph:
 
     def getCostOfEdge(self, edge):
         """
-        This function returns the cost of an edge if it exists/ otherwise it raises an error.
+        This fun1ction returns the cost of an edge if it exists/ otherwise it raises an error.
         :param edge: a tuple of 2 integer numbers, representing the starting and ending poiny of the edge.
         :return: the cost of an edge if it exists/otherwise an error.
         """
@@ -292,8 +291,8 @@ class DirectedGraph:
             output.write("%d %d\n" % (self.__numberOfVertices, self.__numberOfEdges))
             for i in self.getAllVertices():
                 pass
-                # for vertex in self.__dictOut[i]:
-                #     output.write("%d %d %d\n" % (i, vertex, self.getCostOfEdge((i, vertex))))
+                for vertex in self.__dictOut[i]:
+                    output.write("%d %d %d\n" % (i, vertex, self.getCostOfEdge((i, vertex))))
 
             output.close()
 
