@@ -1,4 +1,4 @@
-import random
+
 from graph import DirectedGraph
 
 class UI:
@@ -24,6 +24,7 @@ class UI:
         print("18. Write the new graph to the file.")
         print("19. Create a random graph.")
         print("20. The connected components of an undirected graph.")
+        print("21. Strongly connected components.")
         print("0. Exit.\n")
 
     def __init__(self, graph, ugraph):
@@ -168,7 +169,7 @@ class UI:
 
     def undirectedGraphCC(self):
         print("Enter the file in order to read the undirected graph:")
-        file_name = "ugraph.txt"
+        file_name = input("Enter>>")
         self._undirectedGraph.readUndirectedGraph(file_name)
         print("File read succesfully")
         cc = self._undirectedGraph.BFS()
@@ -182,6 +183,10 @@ class UI:
 
         print("\n")
 
+    def stronglyCCUI(self):
+        file_name = "graphs.txt"
+        cc = self._directedGraph.StronglyCC()
+        print(cc)
 
     def start(self):
 
@@ -193,7 +198,7 @@ class UI:
             "4": self.retNrOfEdgesUI,   # implemented
             "5": self.retNrOfVerticesUI,    # implemented
             "6": self.getIndegreeVertexUI,  # implemented
-            "7": self.getOutdegreeVertexUI, # implemented
+            "7": self.getOutdegreeVertexUI,  # implemented
             "8": self.getEdgeCost,  # implemented
             "9": self.getVerticesUI,    # implemented
             "10": self.findVertexUI,    # implemented
@@ -206,7 +211,8 @@ class UI:
             "17": self.copyGraphUI,     # implemented
             "18": self.writeToFileUI,   # implemented
             "19": self.createRandomGraph,
-            "20": self.undirectedGraphCC
+            "20": self.undirectedGraphCC,
+            "21": self.stronglyCCUI
         }
         while not done:
             UI.print_menu()
@@ -225,4 +231,3 @@ class UI:
                 print(str(ve) + "\n")
             except Exception as ve:
                 print(str(ve) + "\n")
-

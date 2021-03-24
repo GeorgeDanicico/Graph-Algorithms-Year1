@@ -1,10 +1,8 @@
-import random
-from graph import DirectedGraph
 
 class UI:
     @staticmethod
     def print_menu():
-        print("1. Load the graph")
+        print("1. Load the  directed graph")
         print("2. Add Vertex.")
         print("3. Add Edge.")
         print("4. Get the number of edges.")
@@ -26,7 +24,7 @@ class UI:
         print("0. Exit.\n")
 
     def __init__(self, graph):
-        self._graph = graph
+        self._directedGraph = graph
         self._initialisedGraph = False
 
     def loadGraphUI(self):
@@ -35,9 +33,9 @@ class UI:
         if reading_type not in [1, 2]:
             raise ValueError("Invalid input...\n")
         if reading_type == 1:
-            self._graph.loadGraph1(file_name)
+            self._directedGraph.loadGraph1(file_name)
         else:
-            self._graph.loadGraph2(file_name)
+            self._directedGraph.loadGraph2(file_name)
         self._initialisedGraph = True
         print("Graph loaded succesfully")
 
@@ -48,7 +46,7 @@ class UI:
         except ValueError:
             raise ValueError("Invalid vertex.\n")
 
-        self._graph.addVertex(vertex, False)
+        self._directedGraph.addVertex(vertex, False)
         print("Vertex added.\n")
 
     def addEdgeUI(self):
@@ -63,55 +61,55 @@ class UI:
         except ValueError:
             raise ValueError("Invalid edges.\n")
 
-        self._graph.addEdge(startPoint, endPoint, cost, False)
+        self._directedGraph.addEdge(startPoint, endPoint, cost, False)
         print("Edge added.\n")
 
     def retNrOfEdgesUI(self):
-        print(f"The number of edges is: {self._graph.NrOfEdges}\n")
+        print(f"The number of edges is: {self._directedGraph.NrOfEdges}\n")
 
     def retNrOfVerticesUI(self):
-        print(f"The number of vertices is: {self._graph.NrOfVertices}\n")
+        print(f"The number of vertices is: {self._directedGraph.NrOfVertices}\n")
 
     def getIndegreeVertexUI(self):
         vertex = int(input("Enter the vertex: "))
-        print(f"The indegree of the vertex {vertex} is: {self._graph.getIndegreeVertex(vertex)}")
+        print(f"The indegree of the vertex {vertex} is: {self._directedGraph.getIndegreeVertex(vertex)}")
 
     def getOutdegreeVertexUI(self):
         vertex = int(input("Enter the vertex: "))
-        print(f"The outdegree of the vertex {vertex} is: {self._graph.getOutdegreeVertex(vertex)}")
+        print(f"The outdegree of the vertex {vertex} is: {self._directedGraph.getOutdegreeVertex(vertex)}")
 
     def getEdgeCost(self):
         startPoint = int(input("Enter the start vertex: "))
         endPoint = int(input("Enter the end vertex: "))
         edge = (startPoint, endPoint)
-        print(f"Cost of edge {edge}: {self._graph.getCostOfEdge(edge)}\n")
+        print(f"Cost of edge {edge}: {self._directedGraph.getCostOfEdge(edge)}\n")
 
     def getVerticesUI(self):
         print("The vertices are:\n")
-        for i in self._graph.getAllVertices():
+        for i in self._directedGraph.getAllVertices():
             print(i)
         print('\n')
 
     def findVertexUI(self):
         vertex = int(input("Enter the vertex: "))
-        print(f"Existence of vertex {vertex}: {self._graph.vertexExistence(vertex)}\n")
+        print(f"Existence of vertex {vertex}: {self._directedGraph.vertexExistence(vertex)}\n")
 
     def findEdgeUI(self):
         startPoint = int(input("Enter the start vertex: "))
         endPoint = int(input("Enter the end vertex: "))
         edge = (startPoint, endPoint)
-        print(f"Existence of edge {edge}: {self._graph.edgeExistence(edge)}\n")
+        print(f"Existence of edge {edge}: {self._directedGraph.edgeExistence(edge)}\n")
 
     def deleteVertexUI(self):
         vertex = int(input("Enter the vertex: "))
-        self._graph.deleteVertex(vertex)
+        self._directedGraph.deleteVertex(vertex)
         print("Deleted succesfully.\n")
 
     def deleteEdgeUI(self):
         startPoint = int(input("Enter the start vertex: "))
         endPoint = int(input("Enter the end vertex: "))
         edge = (startPoint, endPoint)
-        self._graph.deleteEdge(edge)
+        self._directedGraph.deleteEdge(edge)
         print("Deleted succesfully.\n")
 
     def changeEdgeCostUI(self):
@@ -119,19 +117,19 @@ class UI:
         endPoint = int(input("Enter the end vertex: "))
         newCost = int(input("Enter the new cost: "))
         edge = (startPoint, endPoint)
-        self._graph.setCostEdge(edge, newCost)
+        self._directedGraph.setCostEdge(edge, newCost)
         print("Changed succesfully.\n")
 
     def getInboundUI(self):
         vertex = int(input("Enter the vertex: "))
-        print(f"The inbound neighbours of the vertex {vertex} are: {self._graph.getInboundNeighbours(vertex)}\n")
+        print(f"The inbound neighbours of the vertex {vertex} are: {self._directedGraph.getInboundNeighbours(vertex)}\n")
 
     def getOutboundUI(self):
         vertex = int(input("Enter the vertex: "))
-        print(f"The outbound neighbours of the vertex {vertex} are: {self._graph.getOutboundNeighbours(vertex)}\n")
+        print(f"The outbound neighbours of the vertex {vertex} are: {self._directedGraph.getOutboundNeighbours(vertex)}\n")
 
     def copyGraphUI(self):
-        copy_graph = self._graph.getGraphCopy()
+        copy_graph = self._directedGraph.getGraphCopy()
         print("Graph copied succesfully.\n")
 
     def writeToFileUI(self):
@@ -140,9 +138,9 @@ class UI:
         if write_type not in [1, 2]:
             raise ValueError("Invalid writing type...\n")
         if write_type == 1:
-            self._graph.writeGraph1(file_name)
+            self._directedGraph.writeGraph1(file_name)
         else:
-            self._graph.writeGraph2(file_name)
+            self._directedGraph.writeGraph2(file_name)
         print("Saved succesfully.\n")
 
     def createRandomGraph(self):
@@ -151,7 +149,7 @@ class UI:
         if edges > vertices * (vertices - 1) + vertices:
             edges = vertices * (vertices - 1) + vertices
 
-        randomGraph = self._graph.generateRandomGraph(vertices, edges)
+        randomGraph = self._directedGraph.generateRandomGraph(vertices, edges)
 
         print("Graph generated succesfully")
         file_name = input("Enter the file where you want to print the graph: ")
@@ -174,7 +172,7 @@ class UI:
             "4": self.retNrOfEdgesUI,   # implemented
             "5": self.retNrOfVerticesUI,    # implemented
             "6": self.getIndegreeVertexUI,  # implemented
-            "7": self.getOutdegreeVertexUI, # implemented
+            "7": self.getOutdegreeVertexUI,  # implemented
             "8": self.getEdgeCost,  # implemented
             "9": self.getVerticesUI,    # implemented
             "10": self.findVertexUI,    # implemented
@@ -193,7 +191,7 @@ class UI:
             command = input("Command>>")
             try:
                 if command in command_dict:
-                    if command != '1' and self._initialisedGraph is False and command != '19':
+                    if command != '1' and self._initialisedGraph is False and int(command) < 19:
                         raise ValueError("You didnt load any graph!")
                     command_dict[command]()
                 elif command == '0':
@@ -205,4 +203,3 @@ class UI:
                 print(str(ve) + "\n")
             except Exception as ve:
                 print(str(ve) + "\n")
-

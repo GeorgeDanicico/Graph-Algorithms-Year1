@@ -311,3 +311,56 @@ class DirectedGraph:
 
             output.close()
 
+    # Practical work no. 2 bonus point
+    def TopologicalSort(self, vertex, visited, stack):
+        for node in self.__dictOut[vertex]:
+            if visited[node] is False:
+                visited[node] = True
+                self.TopologicalSort(node, visited, stack)
+
+        stack.append(vertex)
+
+    def StronglyCC(self):
+        stack = []
+        visited = [False] * self.__numberOfVertices
+
+   #HERE     # Topological sort => each vertex v, if there is an edge (v, u), v must appear before you
+        for i in range(self.NrOfVertices):
+            if visited[i] is False:
+                visited[i] = True
+                self.TopologicalSort(i, visited, stack)
+        # Now we have the Topological sorting done.
+        stronglyCC = []
+
+        # Now that we have the stack of finished time for every vertex created, we start
+        # from the last vertex in the stack and parse through his inbound neighbours
+        # in order to find the SCC that contains the vertex.
+
+        # reset the visited array
+        visited = [False] * self.__numberOfVertices
+        queue = []
+        while len(stack) > 0:
+            # the last element of the stack is returned
+            top = stack.pop()
+            # if the last element from the stack has not been visited
+            # we add it to a new SCC
+            if visited[top] is False:
+                currentSCC = [top]
+                visited[top] = True
+                # we add it to the queue
+                queue.append(top)
+                while queue:
+                    # now we parse through the inbound neighbours of the current vertex in the queue
+                    current = queue.pop(0)
+                    inbound_neighbours = self.getInboundNeighbours(current)
+                    # We go through the inbound neighbours
+                    for vertex in inbound_neighbours:
+                        if visited[vertex] is False:
+                            # if the vertex hasn't been visited, we add it to the SCC.
+                            visited[vertex] = True
+                            currentSCC.append(vertex)
+                            queue.append(vertex)
+
+                stronglyCC.append(currentSCC)
+
+        return stronglyCC

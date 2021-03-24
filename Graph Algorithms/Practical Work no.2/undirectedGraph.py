@@ -70,14 +70,3 @@ class UndirectedGraph(DirectedGraph):
             index += 1
 
         file.close()
-
-    def writeUndirectedGraph(self, file_name):
-        with open(file_name, "w") as file:
-            file.write("%d %d \n" % (self.NrOfVertices, self.NrOfEdges))
-            for vertex in self.getAllVertices():
-                vertex_list = self.getOutboundNeighbours(vertex)
-                for destination in vertex_list:
-                    file.write("%d %d \n" % (vertex, destination))
-
-            file.close()
-
