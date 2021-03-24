@@ -227,9 +227,6 @@ class DirectedGraph:
         self.__numberOfVertices = 0
         self.__numberOfEdges = 0
 
-        for i in range(vertices):
-            self.addVertex(i, True)
-
         lines = file_open.readlines()
         file_open.close()
 
@@ -239,10 +236,17 @@ class DirectedGraph:
                 startPoint = int(line[0])
                 endPoint = int(line[1])
                 cost = int(line[2])
+                self.addVertex(startPoint, True)
+                self.addVertex(endPoint, True)
                 self.addEdge(startPoint, endPoint, cost, True)
                 # self.setCostEdge((startPoint, endPoint), cost)
             except ValueError as ve:
                 raise ValueError("Invalid values in the file. Please check the file.\n")
+
+        index = 0
+        while self.__numberOfVertices < vertices:
+            self.addVertex(index, True)
+            index += 1
 
     def loadGraph2(self, graph_file):
         """
@@ -267,9 +271,6 @@ class DirectedGraph:
         self.__numberOfVertices = 0
         self.__numberOfEdges = 0
 
-        for i in range(vertices):
-            self.addVertex(i, True)
-
         lines = file_open.readlines()
         file_open.close()
 
@@ -277,8 +278,10 @@ class DirectedGraph:
             line = line.split()
             try:
                 startPoint = int(line[0])
+                self.addVertex(startPoint, True)
                 if len(line) == 3:
                     endPoint = int(line[1])
+                    self.addVertex(endPoint, True)
                     cost = int(line[2])
                     self.addEdge(startPoint, endPoint, cost, True)
                     # self.setCostEdge((startPoint, endPoint), cost)
@@ -290,7 +293,6 @@ class DirectedGraph:
         with open(graph_file, "w") as output:
             output.write("%d %d\n" % (self.__numberOfVertices, self.__numberOfEdges))
             for i in self.getAllVertices():
-                pass
                 for vertex in self.__dictOut[i]:
                     output.write("%d %d %d\n" % (i, vertex, self.getCostOfEdge((i, vertex))))
 
