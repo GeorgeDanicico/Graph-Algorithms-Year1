@@ -25,6 +25,7 @@ class UI:
         print("19. Create a random graph.")
         print("20. The connected components of an undirected graph.")
         print("21. Strongly connected components.")
+        print("22. Biconnected components.")
         print("0. Exit.\n")
 
     def __init__(self, graph, ugraph):
@@ -184,7 +185,6 @@ class UI:
         print("\n")
 
     def stronglyCCUI(self):
-        file_name = "graphs.txt"
         cc = self._directedGraph.StronglyCC()
         length = len(cc)
         if length == 0:
@@ -192,6 +192,19 @@ class UI:
         else:
             for i in range(length):
                 print(f"SCC {i + 1}: {cc[i]}")
+
+    def BiconnectedUI(self):
+        print("Enter the file in order to read the undirected graph:")
+        file_name = "ugraph.txt"#input("Enter>>")
+        self._undirectedGraph.readUndirectedGraph(file_name)
+        print("File read succesfully")
+
+        comp = self._undirectedGraph.BiConnectedComp()
+        print("The biconnected components of the graph are:")
+        length = len(comp)
+        for i in range(length):
+            print(f"Component {i + 1}: {comp[i]}")
+
 
     def start(self):
 
@@ -217,7 +230,8 @@ class UI:
             "18": self.writeToFileUI,   # implemented
             "19": self.createRandomGraph,
             "20": self.undirectedGraphCC,
-            "21": self.stronglyCCUI
+            "21": self.stronglyCCUI,
+            "22": self.BiconnectedUI
         }
         while not done:
             UI.print_menu()
