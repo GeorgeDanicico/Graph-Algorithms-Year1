@@ -186,7 +186,12 @@ class UI:
     def stronglyCCUI(self):
         file_name = "graphs.txt"
         cc = self._directedGraph.StronglyCC()
-        print(cc)
+        length = len(cc)
+        if length == 0:
+            print("There are no SCC.")
+        else:
+            for i in range(length):
+                print(f"SCC {i + 1}: {cc[i]}")
 
     def start(self):
 
