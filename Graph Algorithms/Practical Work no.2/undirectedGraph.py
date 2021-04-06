@@ -28,7 +28,7 @@ class UndirectedGraph(DirectedGraph):
             # now in order to find the connected component that includes this vertex
             # we are going to perform a BFS.
             queue = []
-            new_connectecComp = [vertex]
+            new_connectecComp = [vertex]  # this list will contain all the nodes from the current connected component.
             visited[vertex] = True
             queue.append(vertex)
             while queue:
@@ -50,7 +50,7 @@ class UndirectedGraph(DirectedGraph):
         discovery[current_vertex] = self.Time
         fastestDiscovery[current_vertex] = self.Time
         self.Time += 1
-        children = 0 # this will keep the number of children
+        children = 0  # this will keep the number of children
 
         # we parse through the set of all the neighbours of the current vertex
 
