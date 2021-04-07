@@ -26,6 +26,7 @@ class UI:
         print("20. The connected components of an undirected graph.")
         print("21. Strongly connected components.")
         print("22. Biconnected components.")
+        print("23. Minimum walk cost.")
         print("0. Exit.\n")
 
     def __init__(self, graph, ugraph):
@@ -43,7 +44,7 @@ class UI:
         else:
             self._directedGraph.loadGraph2(file_name)
         self._initialisedGraph = True
-        print("Graph loaded succesfully")
+        print("Graph loaded succesfully.\n")
 
     def addVertexUI(self):
         vertex = input("Enter the vertex:")
@@ -173,14 +174,14 @@ class UI:
         file_name = input("Enter>>")
         self._undirectedGraph.readUndirectedGraph(file_name)
         print("File read succesfully")
-        cc = self._undirectedGraph.BFS()
-        cc_len = len(cc)
-        if cc_len == 0:
+        graph_list = self._undirectedGraph.BFS()
+        list_len = len(graph_list)
+        if list_len == 0:
             print("There are no connected components.")
         else:
-            print(f"There are {cc_len} connected components.")
-            for i in range(cc_len):
-                print(f"Component {i + 1}: {cc[i]}")
+            print(f"There are {list_len} connected components.")
+            for i in range(list_len):
+                print(f"Component {i + 1}: {graph_list[i].getVertices()} - Edges: {graph_list[i].getEdges()}")
 
         print("\n")
 
@@ -195,7 +196,7 @@ class UI:
 
     def BiconnectedUI(self):
         print("Enter the file in order to read the undirected graph:")
-        file_name = "ugraph.txt"#input("Enter>>")
+        file_name = input("Enter>>")
         self._undirectedGraph.readUndirectedGraph(file_name)
         print("File read succesfully")
 
@@ -205,6 +206,15 @@ class UI:
         for i in range(length):
             print(f"Component {i + 1}: {comp[i]}")
 
+    def MinCostWalkUI(self):
+        v1 = input("Enter the source vertex: ")
+        v2 = input("Enter the destination vertex: ")
+
+        min_cost, min_path = self._directedGraph.BellmanFordAlgorithm(int(v1), int(v2))
+        if min_cost is None:
+            print(f"There is not a walk from {v1} to {v2}.\n")
+        else:
+            print(f"The minimum cost from {v1} to {v2} is {min_cost} and the path is {min_path}.\n")
 
     def start(self):
 
@@ -231,14 +241,15 @@ class UI:
             "19": self.createRandomGraph,
             "20": self.undirectedGraphCC,
             "21": self.stronglyCCUI,
-            "22": self.BiconnectedUI
+            "22": self.BiconnectedUI,
+            "23": self.MinCostWalkUI
         }
         while not done:
             UI.print_menu()
             command = input("Command>>")
             try:
                 if command in command_dict:
-                    if command != '1' and self._initialisedGraph is False and int(command) < 19:
+                    if command != '1' and self._initialisedGraph is False and int(command) not in [19, 20, 22]:
                         raise ValueError("You didnt load any graph!")
                     command_dict[command]()
                 elif command == '0':

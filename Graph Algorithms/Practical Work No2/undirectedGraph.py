@@ -11,8 +11,46 @@ class UndirectedGraph(DirectedGraph):
         # This is a list which will store the Biconnected components of the graph
         self.BiConComp = []
 
+    def getVertices(self):
+        return [x for x in self.getAllVertices()]
+
+    def getEdges(self):
+
+        edges = []
+        for x in self.getVertices():
+            for y in self.getOutboundNeighbours(x):
+                if (x, y) not in edges and (y, x) not in edges:
+                    edges.append((x, y))
+
+        return edges
+
+    def listOfGraphs(self, LoG):
+        """
+        This function will return a list in which object is a graph corresponding to each connected component.
+        :param LoG: the list of connected components
+        :return: the list of graph objects corresponding for each connected component
+        """
+        graph_list = []
+        for i in range(len(LoG)):
+            # We now parse through the connected component list in order to add every edge that exists.
+            G = UndirectedGraph()
+            # we add all the vertices into the graph.
+            for k in range(len(LoG[i])):
+                G.addVertex(LoG[i][k], True)
+
+            # we know parse through the list to add all the edges.
+            for j in range(len(LoG[i]) - 1):
+                for k in range(len(LoG[i])):
+                    if self.edgeExistence((LoG[i][j], LoG[i][k])):
+                        G.addEdge(LoG[i][j], LoG[i][k], 0, True)
+
+            graph_list.append(G)
+
+        return graph_list
+
     def BFS(self):
         # connectedComp will keep a list for each connected component
+
         visited = [False] * self.NrOfVertices
         connectedComp = []
 
@@ -43,7 +81,10 @@ class UndirectedGraph(DirectedGraph):
             # after the BFS was performed, we append the new component
             connectedComp.append(new_connectecComp)
 
-        return connectedComp
+        # This is the list of graph object
+        graphObj = self.listOfGraphs(connectedComp)
+
+        return graphObj
 
     def BCCFind(self, current_vertex, parent, discovery, fastestDiscovery, stack):
         # We set the finding times for the current vertex
@@ -154,3 +195,4 @@ class UndirectedGraph(DirectedGraph):
             index += 1
 
         file.close()
+
