@@ -1,19 +1,18 @@
 
-# the function below generates the path from source vertex to destination vertex.
-# def DFS(graph, src, vertex, path, dist):
-#
-#     path.append(vertex)
-#     if vertex != src:
-#         for neighbour in graph.getInboundNeighbours(vertex):
-#             if dist[neighbour] == dist[vertex] - graph.getCostOfEdge((neighbour, vertex)):
-#                 return DFS(graph, src, neighbour, path[:], dist)
-#
-#     else:
-#         return path
-
+# This function will generate the path from source vertex to destination vertex
+#   This function is called only if dist[destination] != infinity, which means that there is for sure a path.
 def generatePath(prev, src, destination):
+    """
+    :param prev:  The list of predecessors for every vertex in the graph.
+    :param src: The source vertex
+    :param destination: the destination vertex
+    :return: the path from src to destination
+    """
     path = [destination]
     vertex = destination
+
+    # We will parse backwards the list and after we reached the source vertex, we reverse the list
+    # in order to have the list from source to destination
     while vertex != src:
         path.append(prev[vertex])
         vertex = prev[vertex]
@@ -38,8 +37,10 @@ def BellmanFordAlgortihm(graph, v1, v2):
     dist[v1] = 0
     prev = [0] * graph.NrOfVertices
     changed = True
-    while changed:
+    count = 1
+    while changed and count < graph.NrOfVertices:
         changed = False
+        count += 1
         for edge in graph.getAllEdges():
             vertex1 = edge[0]
             vertex2 = edge[1]
@@ -49,6 +50,10 @@ def BellmanFordAlgortihm(graph, v1, v2):
                 prev[vertex2] = vertex1
                 changed = True
 
+    # The above algorithm already produces the minimum costs, if there are no negative weight cycles.
+
+    # In order to be sure that there are no negative weight cycles, we parse one more time through all the edges, and if there is
+    # edge for which the if statement is true, than there is a negative weight cycle.
     for edge in graph.getAllEdges():
         vertex1 = edge[0]
         vertex2 = edge[1]
@@ -56,9 +61,10 @@ def BellmanFordAlgortihm(graph, v1, v2):
         if dist[vertex1] != float("inf") and dist[vertex2] > dist[vertex1] + cost:
             raise Exception("Negative cost cycle detected!\n")
 
-    if dist[v2] != float("inf"):
+    # If dist[v2] is inf, it means that there is no path from v1 to v2.
 
+    if dist[v2] != float("inf"):
         path = generatePath(prev, v1, v2)
         return dist[v2], path
 
-    return None
+    return None, None
