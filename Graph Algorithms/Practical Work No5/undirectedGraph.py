@@ -1,5 +1,6 @@
 from graph import DirectedGraph
-from Prim_Algorithm import Prim_Alg
+from Prim_Algorithm import Prim_Alg, hamiltonCycle
+
 
 class UndirectedGraph(DirectedGraph):
     def __init__(self):
@@ -199,6 +200,9 @@ class UndirectedGraph(DirectedGraph):
             raise Exception("The graph isn't connected!\n")
 
         return Prim_Alg(self)
+
+    def hamCycle(self):
+        return hamiltonCycle(self)
 
     def readUndirectedGraph(self, file_name):
         """

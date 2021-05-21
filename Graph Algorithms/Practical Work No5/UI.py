@@ -239,7 +239,13 @@ class UI:
             print(f"Total cost: {total_cost}\n")
 
     def hamcycleUI(self):
-        pass
+
+        print("Enter the file in order to read the undirected graph:")
+        file_name = input("Enter>>")
+        self._undirectedGraph.readUndirectedGraph(file_name)
+
+        total_cost, cycle = self._undirectedGraph.hamCycle()
+        print(f"The total cost of the hamiltonian cycle is: {total_cost} and the cycle is: {cycle}.\n")
 
     def start(self):
 
